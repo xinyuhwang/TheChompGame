@@ -9,7 +9,9 @@ public interface MouseListener {
     public void mouseClicked(MouseEvent e);
 
     /**
+     * The original design doc listed this function.
      * This method is called when a mouse button is pressed down on a component.
+     * I don't see the usage of this function in this project. Therefore, I will not implement this function.
+     * public void mousePressed(MouseEvent e);
      */
-    public void mousePressed(MouseEvent e);
 }

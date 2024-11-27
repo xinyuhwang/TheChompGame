@@ -9,6 +9,8 @@ package com.project.thechompgame;
  * <p>
  * Modified version: to me, the GameRunner class's functionality is similar to the Main class without the main function.
  * Therefore, I combined the GameRunner class with ChompGUI class and initialized everything in ChompGUI.
+ * I don't understand what does it mean to add a boolean value next to the player initialization in the original design.
+ * Therefore, the pair data of (player name, true)  is not implemented in here.
  * </p>
  */
 public class GameRunner {

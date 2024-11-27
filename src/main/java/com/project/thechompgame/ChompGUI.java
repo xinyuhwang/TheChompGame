@@ -5,8 +5,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 
-public class ChompGUI implements ActionListener {
+public class ChompGUI implements MouseListener, ActionListener{
     JFrame frame;
     JPanel boardPanel;
     JPanel playerPanel;
@@ -22,6 +23,9 @@ public class ChompGUI implements ActionListener {
 
     JButton resetButton;
 
+    //Board board;
+    JButton[][] tileButtons;
+
     public ChompGUI() {
         frame = new JFrame("Chomp Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,6 +40,40 @@ public class ChompGUI implements ActionListener {
         buttonPanel = new JPanel();
         messagePanel = new JPanel();
         resetMessagePanel = new JPanel();
+
+        //board = new Board();
+        tileButtons = new JButton[8][7];
+
+        Color brown = new Color(155, 95, 55);
+        Color papayaWhip = new Color(255, 239, 213);
+        Color purple = new Color(115, 56, 250);
+        for(int row = 0; row < 8; row++) {
+            for(int col = 0; col < 7; col++) {
+                tileButtons[row][col] = new JButton();
+                tileButtons[row][col].setPreferredSize(new Dimension(7, 7));
+                if (row == 7 && col == 0) {
+                    tileButtons[row][col].setBackground(brown);
+                    tileButtons[row][col].setOpaque(true);
+//                    tileButtons[row][col].setBorderPainted(false);
+//                    tileButtons[row][col].setMargin(new Insets(2, 2, 2, 2));
+                } else {
+                    tileButtons[row][col].setBackground(papayaWhip);
+                    tileButtons[row][col].setOpaque(true);
+//                    tileButtons[row][col].setBorderPainted(false);
+                }
+                tileButtons[row][col].setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(purple, 2),
+                        BorderFactory.createLineBorder(purple, 2)
+                ));
+                tileButtons[row][col].addActionListener(this);
+                boardPanel.add(tileButtons[row][col]);
+            }
+        }
+        boardPanel.setLayout(new GridLayout(8, 7));
+        boardPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        boardPanel.setBackground(purple);
+        boardPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        tileButtons[0][0].setForeground(brown);
 
         // Initialize player turn labels
         playerTurnLabel = new JTextField("Player Turn");
@@ -71,12 +109,15 @@ public class ChompGUI implements ActionListener {
         buttonAndMessagePanel.setPreferredSize(new Dimension(400, 220));
         buttonPanel.setPreferredSize(new Dimension(680, 90));
 
+        // set size for reset button
         resetButton.setPreferredSize(new Dimension(100, 63));
         buttonPanel.setBorder(BorderFactory.createCompoundBorder(
                 buttonPanel.getBorder(),
                 BorderFactory.createEmptyBorder(5, 6, 5, 500)
         ));
+        resetButton.setBackground(Color.orange);
 
+        // set size for labels
         messageLabel.setPreferredSize(new Dimension(300, 30));
         messageLabel.setBorder(new EmptyBorder(5, 5, 5, 10));
         resetGameMessageLabel.setPreferredSize(new Dimension(347, 30));
@@ -84,7 +125,7 @@ public class ChompGUI implements ActionListener {
         resetMessagePanel.setBorder(new EmptyBorder(15, 7, 5, 7));
 
         // Set background colors
-        Color purple = new Color(115, 56, 250);
+        //Color purple = new Color(115, 56, 250);
         Color cyan = new Color(0, 183, 235);
         frame.setBackground(purple);
         boardPanel.setBackground(purple);
@@ -114,11 +155,23 @@ public class ChompGUI implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new ChompGUI();
+//        Player p1 = new Player("P1");
+//        Player p2 = new Player("P2");
+//        Board board = new Board();
+//        GameController gameController = new GameController(board, p1);
+        ChompGUI chompGUI = new ChompGUI();
+//        GameRunner gameRunner = new GameRunner(p1, p2, board, chompGUI, gameController);
+//        gameRunner.run();
+    }
+
+    // not in the original design doc
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void mouseClicked(MouseEvent e) {
 
     }
 }
