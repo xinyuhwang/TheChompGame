@@ -1,22 +1,34 @@
 package com.project.thechompgame;
-
+/**
+ * @author Xinyu Wang
+ * @version 10/20/2024
+ * The {@code Board} class implements .
+ * <p>
+ *     This Board class contains the methods to:
+ *
+ * </p>
+ */
 public class Board {
     private final String[][] gameBoard;
-    private final int width;
-    private final int height;
+    private final int row;
+    private final int col;
 
     /**
      * Constructor:
      * Initializes the board, including setting up the dimensions (width and height) and placing the poison tile.
-     * In the design doc, there is no parameter for the constructor.
-     * As showed in the GUI diagram, the width is 7 and the height is 8.
+     * In the design doc, there is no parameter for the constructor. However, without parameter, we cannot initialize
+     * the gameBoard in the game.
+     * In the design doc, a width and a height is used in construct the board. However, use row and col to construct a
+     * String matrix make more sense in this design.
+     * Modified version: pass gameBoard, width, and height in the parameter of Board constructor. Use row and col to
+     * replace width and height.
      */
-    public Board() {
-        this.width = 7;
-        this.height = 8;
-        gameBoard = new String[this.width][this.height];
-        this.gameBoard[0][this.height - 1] = "poison tile";
-        initializeBoard();
+    public Board(String[][] gameBoard, int row, int col) {
+        this.gameBoard = gameBoard;
+        this.row = row;
+        this.col = col;
+        this.gameBoard[row - 1][0] = "poison tile";
+        initializeBoard(this.gameBoard);
     }
     //    The function header in the original design. However, the constructor already initialized the width and height of
     //    the gameBoard, I don't see the purpose of having width and height in the parameter of initializedBoard function.
@@ -26,11 +38,11 @@ public class Board {
      * Initializes all tiles as 'active'.
      */
     // The modified version of initializedBoard function.
-    private void initializeBoard() {
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-                if (!this.gameBoard[i][j].equals("poison tile")) {
-                    this.gameBoard[i][j] = "active";
+    private void initializeBoard(String[][] gameBoard) {
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
+                if (gameBoard[i][j] == null || !gameBoard[i][j].equals("poison tile")) {
+                    gameBoard[i][j] = "active";
                 }
             }
         }
@@ -51,8 +63,8 @@ public class Board {
      * @param columnTile, the column number of this chosen tile
      */
     public void updateBoard(int rowTile, int columnTile) {
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
                 if (i <= rowTile && j >= columnTile) {
                     this.gameBoard[i][j] = "eaten";
                 }
@@ -65,8 +77,8 @@ public class Board {
      */
     public int fetchTileCount() {
         int remainingTiles = 0;
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
                 if (this.gameBoard[i][j].equals("active") || this.gameBoard[i][j].equals("poison tile")) {
                     remainingTiles++;
                 }

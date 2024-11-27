@@ -1,5 +1,13 @@
 package com.project.thechompgame;
-
+/**
+ * @author Xinyu Wang
+ * @version 10/20/2024
+ * The {@code GameController} class implements .
+ * <p>
+ *     This GameController class contains the methods to:
+ *
+ * </p>
+ */
 public class GameController {
     private Player currentTurn;
     // The original design doc doesn't have any variable to keep tracking if a game is over.

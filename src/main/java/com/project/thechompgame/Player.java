@@ -1,5 +1,13 @@
 package com.project.thechompgame;
-
+/**
+ * @author Xinyu Wang
+ * @version 10/20/2024
+ * The {@code Player} class implements .
+ * <p>
+ *     This Player class contains the methods to:
+ *
+ * </p>
+ */
 public class Player {
     private final String name;
 

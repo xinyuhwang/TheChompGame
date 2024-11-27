@@ -6,7 +6,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-
+/**
+ * @author Xinyu Wang
+ * @version 10/20/2024
+ * The {@code ChompGUI} class implements .
+ * <p>
+ *     This ChompGUI class contains the methods to:
+ *
+ * </p>
+ */
 public class ChompGUI implements MouseListener, ActionListener{
     JFrame frame;
     JPanel boardPanel;
@@ -85,6 +93,7 @@ public class ChompGUI implements MouseListener, ActionListener{
         resetButton = new JButton("Reset");
         resetButton.addActionListener(this);
 
+        // Initialize message labels
         messageLabel = new JTextField("Welcome to CHOMP GAME");
         messageLabel.setEditable(false);
         messageLabel.setFont(new Font("Arial", Font.BOLD, 22));
@@ -154,15 +163,15 @@ public class ChompGUI implements MouseListener, ActionListener{
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-//        Player p1 = new Player("P1");
-//        Player p2 = new Player("P2");
-//        Board board = new Board();
-//        GameController gameController = new GameController(board, p1);
-        ChompGUI chompGUI = new ChompGUI();
-//        GameRunner gameRunner = new GameRunner(p1, p2, board, chompGUI, gameController);
-//        gameRunner.run();
-    }
+//    public static void main(String[] args) {
+////        Player p1 = new Player("P1");
+////        Player p2 = new Player("P2");
+////        Board board = new Board();
+////        GameController gameController = new GameController(board, p1);
+//        ChompGUI chompGUI = new ChompGUI();
+////        GameRunner gameRunner = new GameRunner(p1, p2, board, chompGUI, gameController);
+////        gameRunner.run();
+//    }
 
     // not in the original design doc
     @Override

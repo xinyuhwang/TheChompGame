@@ -1,7 +1,15 @@
 package com.project.thechompgame;
 
 import java.awt.event.MouseEvent;
-
+/**
+ * @author Xinyu Wang
+ * @version 10/20/2024
+ * The {@code MouseListener} interface implements .
+ * <p>
+ *     This MouseListener interface contains the methods to:
+ *
+ * </p>
+ */
 public interface MouseListener {
     /**
      * This method is invoked when a mouse button is clicked (pressed and released) on a component.
