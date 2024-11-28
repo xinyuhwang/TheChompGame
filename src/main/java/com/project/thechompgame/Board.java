@@ -7,11 +7,24 @@ package com.project.thechompgame;
  *     This Board class contains the methods to:
  *
  * </p>
+ * <p>
+ *     This project is supposed to designed based on certain design pattern. The original design doc didn't mention any
+ *     design pattern.
+ *     Modified version: use Observer pattern to implement the connection between click actions in GUI and the board
+ *     status update.
+ * </p>
  */
+interface Observer {
+    void update();
+}
+
 public class Board {
     private final String[][] gameBoard;
     private final int row;
     private final int col;
+    private Observer observer;
+    // not in the original design, but would be more efficient to have one
+    private boolean gameOver;
 
     /**
      * Constructor:
@@ -29,6 +42,7 @@ public class Board {
         this.col = col;
         this.gameBoard[row - 1][0] = "poison tile";
         initializeBoard(this.gameBoard);
+        gameOver = false;
     }
     //    The function header in the original design. However, the constructor already initialized the width and height of
     //    the gameBoard, I don't see the purpose of having width and height in the parameter of initializedBoard function.
@@ -46,6 +60,18 @@ public class Board {
                 }
             }
         }
+    }
+
+    public void attach(Observer observer) {
+        this.observer = observer;
+    }
+
+    public void notifyObserver() {
+        observer.update();
+    }
+
+    public boolean isGameOver() {
+        return this.gameOver;
     }
 
     /**
@@ -70,6 +96,10 @@ public class Board {
                 }
             }
         }
+        if (rowTile == this.row - 1 && columnTile == 0) {
+            this.gameOver = true;
+        }
+        notifyObserver();
     }
 
     /**
