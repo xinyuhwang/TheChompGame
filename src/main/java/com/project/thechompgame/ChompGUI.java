@@ -37,7 +37,10 @@ public class ChompGUI implements MouseListener, Observer{
     Board board;
     JButton[][] tileButtons;
 
-    public ChompGUI(Board board) {
+    Player p1;
+    Player p2;
+
+    public ChompGUI(Board board, Player player1, Player player2, GameController gameController) {
         frame = new JFrame("Chomp Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 900);
@@ -55,7 +58,7 @@ public class ChompGUI implements MouseListener, Observer{
         // Initialize player turn labels
         playerTurnLabel = new JTextField("Player Turn");
         playerTurnLabel.setEditable(false);
-        currentTurnLabel = new JTextField("P1");
+        currentTurnLabel = new JTextField(player1.getName());
         currentTurnLabel.setEditable(false);
         currentTurnLabel.setHorizontalAlignment(JTextField.CENTER);
 
@@ -67,6 +70,13 @@ public class ChompGUI implements MouseListener, Observer{
 //        resetGameMessageLabel.setEditable(false);
 //        resetGameMessageLabel.setFont(new Font("Arial", Font.BOLD, 22));
 //        resetGameMessageLabel.setVisible(false);
+        resetGameMessageLabel = new JTextField("Click Reset to Restart the Game");
+        resetGameMessageLabel.setEditable(false);
+        resetGameMessageLabel.setPreferredSize(new Dimension(347, 30));
+        resetGameMessageLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        resetGameMessageLabel.setBackground(Color.ORANGE);
+
+        resetGameMessageLabel.setVisible(false);
 
         // initialize the game board
         this.board = board;
@@ -102,18 +112,14 @@ public class ChompGUI implements MouseListener, Observer{
                     public void actionPerformed(ActionEvent e) {
                         if (r != rows - 1 && c != 0) {
                             board.updateBoard(r, c);
-                            currentTurnLabel.setText(isPlayer1Turn ? "P2" : "P1");
+                            currentTurnLabel.setText(isPlayer1Turn ? player2.getName() : player1.getName());
                             isPlayer1Turn = !isPlayer1Turn;
                         } else {
                             board.updateBoard(r, c);
-                            String winner = isPlayer1Turn ? "P2" : "P1";
+                            String winner = isPlayer1Turn ? player2.getName() : player1.getName();
                             messageLabel.setText("Game Over!!! " + winner + " Wins");
-                            resetGameMessageLabel = new JTextField("Click Reset to Restart the Game");
-                            resetGameMessageLabel.setEditable(false);
-                            resetGameMessageLabel.setPreferredSize(new Dimension(347, 30));
-                            resetGameMessageLabel.setFont(new Font("Arial", Font.BOLD, 22));
+
                             resetGameMessageLabel.setVisible(true);
-                            resetGameMessageLabel.setBackground(Color.ORANGE);
                             resetMessagePanel.add(resetGameMessageLabel);
                             messagePanel.add(resetGameMessageLabel);
                         }
@@ -128,15 +134,12 @@ public class ChompGUI implements MouseListener, Observer{
         boardPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         tileButtons[0][0].setForeground(brown);
 
+        this.p1 = player1;
+        this.p2 = player2;
 
         // Initialize the reset button
         resetButton = new JButton("Reset");
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        resetButton.addActionListener(e -> resetGame());
 
         // Set the size for panels and other function units
         boardPanel.setPreferredSize(new Dimension(580, 680));
@@ -167,7 +170,7 @@ public class ChompGUI implements MouseListener, Observer{
         messageLabel.setBorder(new EmptyBorder(5, 5, 5, 10));
 //        resetGameMessageLabel.setPreferredSize(new Dimension(347, 30));
         resetMessagePanel.setPreferredSize(new Dimension(500, 60));
-        resetMessagePanel.setBorder(new EmptyBorder(15, 7, 5, 7));
+        resetMessagePanel.setBorder(new EmptyBorder(10, 7, 5, 7));
 
         // Set background colors
         //Color purple = new Color(115, 56, 250);
@@ -180,7 +183,7 @@ public class ChompGUI implements MouseListener, Observer{
         playerTurnLabel.setBackground(Color.WHITE);
         currentTurnLabel.setBackground(cyan);
         messageLabel.setBackground(Color.ORANGE);
-//        resetGameMessageLabel.setBackground(Color.ORANGE);
+        resetGameMessageLabel.setBackground(Color.ORANGE);
         resetMessagePanel.setBackground(purple);
 
         // Add elements to panels
@@ -189,7 +192,7 @@ public class ChompGUI implements MouseListener, Observer{
         buttonPanel.add(resetButton);
         buttonAndMessagePanel.add(buttonPanel, BorderLayout.WEST);
         buttonAndMessagePanel.add(messageLabel, BorderLayout.CENTER);
-//        resetMessagePanel.add(resetGameMessageLabel);
+        resetMessagePanel.add(resetGameMessageLabel);
         buttonAndMessagePanel.add(resetMessagePanel, BorderLayout.SOUTH);
 
         // Add panels to the frame
@@ -231,6 +234,53 @@ public class ChompGUI implements MouseListener, Observer{
                 if (Objects.equals(boardStatus[row][col], "eaten")) {
                     tileButtons[row][col].setBackground(Color.RED);
                 }
+            }
+        }
+    }
+
+    private void resetGame() {
+        messageLabel.setText("Welcome to CHOMP GAME");
+        int rows = board.fetchBoardStatus().length;
+        int cols = board.fetchBoardStatus()[0].length;
+        Color brown = new Color(155, 95, 55);
+        Color papayaWhip = new Color(255, 239, 213);
+        Color purple = new Color(115, 56, 250);
+        isPlayer1Turn = true;
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                if (row == rows - 1 && col == 0) {
+                    tileButtons[row][col].setBackground(brown);
+                    tileButtons[row][col].setOpaque(true);
+                    tileButtons[row][col].setEnabled(true);
+                } else {
+                    tileButtons[row][col].setBackground(papayaWhip);
+                    tileButtons[row][col].setOpaque(true);
+                    tileButtons[row][col].setEnabled(true);
+                }
+                tileButtons[row][col].setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(purple, 2),
+                        BorderFactory.createLineBorder(purple, 2)
+                ));
+                int r = row, c = col;
+                tileButtons[row][col].addActionListener(e -> {
+                    if (r != rows - 1 && c != 0) {
+                        board.updateBoard(r, c);
+                        currentTurnLabel.setText(isPlayer1Turn ? p2.getName() : p1.getName());
+                        isPlayer1Turn = !isPlayer1Turn;
+                    } else {
+                        board.updateBoard(r, c);
+                        String winner = isPlayer1Turn ? p2.getName() : p1.getName();
+                        messageLabel.setText("Game Over!!! " + winner + " Wins");
+//                            resetGameMessageLabel = new JTextField("Click Reset to Restart the Game");
+//                            resetGameMessageLabel.setEditable(false);
+//                            resetGameMessageLabel.setPreferredSize(new Dimension(347, 30));
+//                            resetGameMessageLabel.setFont(new Font("Arial", Font.BOLD, 22));
+//                            resetGameMessageLabel.setVisible(true);
+//                            resetGameMessageLabel.setBackground(Color.ORANGE);
+//                            resetMessagePanel.add(resetGameMessageLabel);
+//                            messagePanel.add(resetGameMessageLabel);
+                    }
+                });
             }
         }
     }
