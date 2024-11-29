@@ -116,4 +116,20 @@ public class Board {
         }
         return remainingTiles;
     }
+
+    /**
+     * This is not in the original design. However, there is no way to reset the board only use the function startGame
+     * in GameController class.
+     * Modified version:
+     * Use resetBoard function to reset the board.
+     */
+    public void resetBoard() {
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
+                if (!gameBoard[i][j].equals("poison tile")) {
+                    gameBoard[i][j] = "active";
+                }
+            }
+        }
+    }
 }

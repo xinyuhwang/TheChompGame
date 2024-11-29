@@ -40,7 +40,6 @@ public class GameRunner {
         Player p2 = new Player("P2");
         Board board = new Board(gameBoard, 8, 7);
         GameController gameController = new GameController(board, p1);
-        ChompGUI chompGUI = new ChompGUI(board, p1, p2, gameController);
-        gameController.startGame(p1, p2, board, chompGUI);
+        new ChompGUI(board, p1, p2, gameController);
     }
 }

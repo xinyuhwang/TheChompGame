@@ -84,9 +84,10 @@ public class GameController {
         this.gameComplete = true;
     }
 
-    // The original design doc describe the function as the game initializer. However, this class doesn't have access to
-    // all the players, neither has a way to re-initialize the board.
-    public void startGame(Player p1, Player p2, Board b, ChompGUI cgi) {
-
-    }
+    /**
+     * The original design doc describe the function as the game initializer. However, this class doesn't have access to
+     * all the players, neither has a way to re-initialize the board.
+     * Modified version: remove this function from this class
+     * public void startGame(Player p1, Player p2, Board b, ChompGUI cgi) {}
+     */
 }
