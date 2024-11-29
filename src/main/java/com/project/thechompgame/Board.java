@@ -13,6 +13,27 @@ package com.project.thechompgame;
  *     Modified version: use Observer pattern to implement the connection between click actions in GUI and the board
  *     status update.
  * </p>
+ * <p>
+ *     The function header in the original design. However, the constructor already initialized the width and height of
+ *     the gameBoard, I don't see the purpose of having width and height in the parameter of initializedBoard function.
+ *     public void initializeBoard(int width, int height) {}
+ * </p>
+ * <p>
+ *     Returns the number of remaining active tiles, helping determine when the game is over.
+ *     This function is not necessary for the functionalities of this project. Therefore, I removed this from the
+ *     implementation.
+ *     public int fetchTileCount() {
+ *         int remainingTiles = 0;
+ *         for (int i = 0; i < this.row; i++) {
+ *             for (int j = 0; j < this.col; j++) {
+ *                 if (this.gameBoard[i][j].equals("active") || this.gameBoard[i][j].equals("poison tile")) {
+ *                     remainingTiles++;
+ *                 }
+ *             }
+ *         }
+ *         return remainingTiles;
+ *     }
+ * </p>
  */
 interface Observer {
     void update();
@@ -23,8 +44,6 @@ public class Board {
     private final int row;
     private final int col;
     private Observer observer;
-    // not in the original design, but would be more efficient to have one
-    private boolean gameOver;
 
     /**
      * Constructor:
@@ -42,11 +61,7 @@ public class Board {
         this.col = col;
         this.gameBoard[row - 1][0] = "poison tile";
         initializeBoard(this.gameBoard);
-        gameOver = false;
     }
-    //    The function header in the original design. However, the constructor already initialized the width and height of
-    //    the gameBoard, I don't see the purpose of having width and height in the parameter of initializedBoard function.
-    //    public void initializeBoard(int width, int height) {}
 
     /**
      * Initializes all tiles as 'active'.
@@ -62,16 +77,20 @@ public class Board {
         }
     }
 
+    /**
+     * This function is not in the original design, but it is needed for attaching the GUI to this board.
+     * This function is used to attach the GUI to this board.
+     */
     public void attach(Observer observer) {
         this.observer = observer;
     }
 
+    /**
+     * This function is not in the original design, but it is needed for notify this board about changes in GUI.
+     * This function is used to notify this board about changes happened in ChompGUI.
+     */
     public void notifyObserver() {
         observer.update();
-    }
-
-    public boolean isGameOver() {
-        return this.gameOver;
     }
 
     /**
@@ -96,25 +115,7 @@ public class Board {
                 }
             }
         }
-        if (rowTile == this.row - 1 && columnTile == 0) {
-            this.gameOver = true;
-        }
         notifyObserver();
-    }
-
-    /**
-     * Returns the number of remaining active tiles, helping determine when the game is over.
-     */
-    public int fetchTileCount() {
-        int remainingTiles = 0;
-        for (int i = 0; i < this.row; i++) {
-            for (int j = 0; j < this.col; j++) {
-                if (this.gameBoard[i][j].equals("active") || this.gameBoard[i][j].equals("poison tile")) {
-                    remainingTiles++;
-                }
-            }
-        }
-        return remainingTiles;
     }
 
     /**

@@ -4,11 +4,10 @@ import java.awt.event.MouseEvent;
 /**
  * @author Xinyu Wang
  * @version 10/20/2024
- * The {@code MouseListener} interface implements .
- * <p>
- *     This MouseListener interface contains the methods to:
- *
- * </p>
+ * The {@code MouseListener} interface that indicated in the original design doc implements the mouseClick function
+ * and mousePressed function. However, I think it is not needed for the functionalities of this project. This project
+ * uses a design pattern, as what I understand an Observer design pattern, that uses an Observer interface with an
+ * update function that can update the board whenever there is a change happen.
  */
 public interface MouseListener {
     /**

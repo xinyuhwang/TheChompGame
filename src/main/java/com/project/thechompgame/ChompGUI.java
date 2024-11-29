@@ -3,19 +3,24 @@ package com.project.thechompgame;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 /**
  * @author Xinyu Wang
  * @version 10/20/2024
- * The {@code ChompGUI} class implements .
+ * The {@code ChompGUI} class implements the GUI of this game.
  * <p>
  *     This ChompGUI class contains the methods to:
- *
+ *          Initialize the GUI of this game;
+ *          update the game board whenever there is a change made on this board;
+ *          reset the game if player clicked on the reset button.
+ * </p>
+ * <p>
+ *     The MouseListener interface is not needed to implement the functionalities of this game. Therefore, I removed it
+ *     from the implementation.
  * </p>
  */
-public class ChompGUI implements MouseListener, Observer{
+public class ChompGUI implements Observer{
     JFrame frame;
     JPanel boardPanel;
     JPanel playerPanel;
@@ -38,7 +43,7 @@ public class ChompGUI implements MouseListener, Observer{
     Player p1;
     Player p2;
 
-    public ChompGUI(Board board, Player player1, Player player2, GameController gameController) {
+    public ChompGUI(Board board, Player player1, Player player2) {
         frame = new JFrame("Chomp Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 900);
@@ -188,14 +193,18 @@ public class ChompGUI implements MouseListener, Observer{
         frame.add(buttonAndMessagePanel, BorderLayout.SOUTH);
         frame.setVisible(true);
     }
+// See explanation in MouseListener interface about this deletion.
+//    @Override
+//    public void mouseClicked(MouseEvent e) {
+//        if (e.getSource() == tileButtons) {
+//
+//        }
+//    }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == tileButtons) {
-
-        }
-    }
-
+    /**
+     * This function is not in the original design doc, but it is needed for updating the board changes.
+     * Update the board whenever a player made changes (click on a button in the board) to this board.
+     */
     @Override
     public void update() {
         String[][] boardStatus = board.fetchBoardStatus();
@@ -209,6 +218,10 @@ public class ChompGUI implements MouseListener, Observer{
         }
     }
 
+    /**
+     * This function is not included in the original design doc, but it is needed for restarting the game.
+     * Reset the game board after a player clicked on the reset button.
+     */
     private void resetGame() {
         messageLabel.setText("Welcome to CHOMP GAME");
         this.board.resetBoard();

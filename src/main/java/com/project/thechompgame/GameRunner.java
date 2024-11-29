@@ -2,10 +2,11 @@ package com.project.thechompgame;
 /**
  * @author Xinyu Wang
  * @version 10/20/2024
- * The {@code GameRunner} class implements .
+ * The {@code GameRunner} class implements the main function.
  * <p>
  *    This GameRunner class contains the methods to:
- *
+ *      start the program;
+ *      initialize all components/objects.
  * </p>
  * <p>
  * Although the design doc state that GameController class initialize the players, the board, and the GUI. However, the
@@ -39,7 +40,8 @@ public class GameRunner {
         Player p1 = new Player("P1");
         Player p2 = new Player("P2");
         Board board = new Board(gameBoard, 8, 7);
-        GameController gameController = new GameController(board, p1);
-        new ChompGUI(board, p1, p2, gameController);
+        // GameController is removed from this modified implementation due to the redundancy of its functionalities.
+        // GameController gameController = new GameController(board, p1);
+        new ChompGUI(board, p1, p2);
     }
 }
